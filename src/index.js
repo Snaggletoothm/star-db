@@ -1,14 +1,11 @@
-const getResource = async (url) => {
-  const res = await fetch(url);
+import SwapiService  from './services/swapi-service'
 
-  if(!res.ok) {
-    throw new Error(`Could not fetch ${url}, received ${res.status}`);
-  }
 
-  const body = await res.json();
-  return body;
-};
+const swapi = new SwapiService();
+swapi.getAllPeople().then(peoples => {
+  peoples.forEach(people => {
+    console.log(people.name);
+  });
+}); 
 
-getResource('https://swapi.dev/api/people/1/')
-  .then(body => console.log(body))
-  .catch(err => console.log(`>>> error is apeared: `, err));
+swapi.getPerson(3).then(each => console.log('>>> ' + each.name + ' <<<'));
