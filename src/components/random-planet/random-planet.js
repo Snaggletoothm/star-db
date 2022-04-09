@@ -8,21 +8,29 @@ import ErrorIndicator from '../error-indicator'
 
 export default class RandomPlanet extends Component {
 
-  constructor() {
-    super();
+  // constructor() {
+  //   super();
+  //   this.updatePlanet();
+  //   setInterval(this.updatePlanet, 6000)
+  // }
+
+  componentDidMount() {
     this.updatePlanet();
-    setInterval(this.updatePlanet, 6000)
+    this.interval = setInterval(this.updatePlanet, 6000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   service = new SwapiService();
 
   state = {
     planet: {},
-    loading: true,
   };
 
   onPlanetLoader = (planet) => {
-    this.setState({ planet, loading: false})
+    this.setState({ planet })
   };
 
   updatePlanet = () => {
@@ -41,10 +49,9 @@ export default class RandomPlanet extends Component {
       planet: { 
         id, name, population, rotationPeriod, diameter
       },
-      loading,
     } = this.state;
 
-    if(loading) {
+    if(name == null) {
       return <Spinner />
     }
 
