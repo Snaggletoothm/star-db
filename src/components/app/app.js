@@ -6,8 +6,11 @@ import ItemList from '../item-list';
 import PersonDetails from '../person-details';
 
 import './app.css';
+import SwapiService from '../../services/swapi-service';
 
 class App extends Component {
+
+  service = new SwapiService();
   
   state = {
     selectedPerson: 5,
@@ -27,12 +30,16 @@ class App extends Component {
   
         <div className="row mb2">
           <div className="col-md-6">
-            <ItemList onPersonSelected={this.onPersonSelected} />
+            <ItemList 
+              onPersonSelected={this.onPersonSelected} 
+              getData={this.service.getAllPeople}
+            />
           </div>
           <div className="col-md-6">
             <PersonDetails personId={this.state.selectedPerson} />
           </div>
         </div>
+        
       </div>
     );
   }
